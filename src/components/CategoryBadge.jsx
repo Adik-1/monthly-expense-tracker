@@ -1,10 +1,14 @@
-import { CATEGORY_ICONS } from '../useExpenses.js';
+import { CATEGORY_COLORS, CATEGORY_ICONS } from '../useExpenses.js';
 
 export function CategoryBadge({ category }) {
-  const icon = CATEGORY_ICONS[category] ?? '📦';
+  const color = CATEGORY_COLORS[category] ?? '#94a3b8';
   return (
-    <span className={`badge badge-${category}`}>
-      {icon} {category}
+    <span style={{
+      display: 'inline-flex', alignItems: 'center', gap: 4,
+      padding: '2px 8px', borderRadius: 99, fontSize: '.75rem', fontWeight: 600,
+      background: color + '22', color,
+    }}>
+      {CATEGORY_ICONS[category] ?? '📦'} {category}
     </span>
   );
 }
