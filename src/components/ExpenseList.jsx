@@ -4,24 +4,24 @@ import { CATEGORIES, CATEGORY_COLORS, CATEGORY_ICONS, formatCurrency, formatDate
 import { ConfirmDeleteModal } from './ConfirmDeleteModal.jsx';
 
 const fInput = {
-  background: 'rgba(255,255,255,.04)', border: '1px solid var(--border)',
+  background: 'var(--surface2)', border: '1px solid var(--border)',
   borderRadius: 10, color: 'var(--t1)', fontFamily: 'Inter,sans-serif',
   fontSize: '.8rem', padding: '7px 12px', outline: 'none',
 };
 const editInput = {
-  background: 'rgba(255,255,255,.06)', border: '1px solid var(--border)',
+  background: 'var(--surface2)', border: '1px solid var(--border)',
   borderRadius: 8, color: 'var(--t1)', fontFamily: 'Inter,sans-serif',
   fontSize: '.8rem', padding: '5px 9px', outline: 'none',
 };
 
 export function ExpenseList({ expenses, onDelete, onEdit, limit }) {
-  const [search, setSearch]       = useState('');
-  const [filterCat, setFilterCat] = useState('All');
+  const [search, setSearch]           = useState('');
+  const [filterCat, setFilterCat]     = useState('All');
   const [filterMonth, setFilterMonth] = useState('');
-  const [sortBy, setSortBy]       = useState('date-desc');
-  const [deleteId, setDeleteId]   = useState(null);
-  const [editId, setEditId]       = useState(null);
-  const [editForm, setEditForm]   = useState({});
+  const [sortBy, setSortBy]           = useState('date-desc');
+  const [deleteId, setDeleteId]       = useState(null);
+  const [editId, setEditId]           = useState(null);
+  const [editForm, setEditForm]       = useState({});
 
   const months = [...new Set(expenses.map(e => e.date?.slice(0, 7)).filter(Boolean))].sort().reverse();
 
@@ -35,10 +35,10 @@ export function ExpenseList({ expenses, onDelete, onEdit, limit }) {
   });
 
   filtered = [...filtered].sort((a, b) => {
-    if (sortBy === 'date-desc')    return (b.date ?? '').localeCompare(a.date ?? '');
-    if (sortBy === 'date-asc')     return (a.date ?? '').localeCompare(b.date ?? '');
-    if (sortBy === 'amount-desc')  return b.amount - a.amount;
-    if (sortBy === 'amount-asc')   return a.amount - b.amount;
+    if (sortBy === 'date-desc')   return (b.date ?? '').localeCompare(a.date ?? '');
+    if (sortBy === 'date-asc')    return (a.date ?? '').localeCompare(b.date ?? '');
+    if (sortBy === 'amount-desc') return b.amount - a.amount;
+    if (sortBy === 'amount-asc')  return a.amount - b.amount;
     return 0;
   });
 
@@ -49,13 +49,20 @@ export function ExpenseList({ expenses, onDelete, onEdit, limit }) {
     setEditForm({ amount: exp.amount, category: exp.category, date: exp.date, note: exp.note || '' });
   }
   function saveEdit() { onEdit(editId, editForm); setEditId(null); }
+
   const hasF = search || filterCat !== 'All' || filterMonth;
 
   return (
     <>
-      <div style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 20, boxShadow: 'var(--shadow-md)', overflow: 'hidden' }}>
+      <div style={{
+        background: 'var(--surface)', border: '1px solid var(--border)',
+        borderRadius: 20, boxShadow: 'var(--shadow-md)', overflow: 'hidden',
+      }}>
         {/* Header */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', borderBottom: '1px solid var(--border)' }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '20px 24px', borderBottom: '1px solid var(--border)',
+        }}>
           <div>
             <div style={{ fontWeight: 600, color: 'var(--t1)', fontSize: '.9rem' }}>Recent Transactions</div>
             <div style={{ fontSize: '.72rem', color: 'var(--tm)', marginTop: 3 }}>{filtered.length} of {expenses.length} shown</div>
@@ -71,7 +78,10 @@ export function ExpenseList({ expenses, onDelete, onEdit, limit }) {
         </div>
 
         {/* Filters */}
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', padding: '14px 24px', borderBottom: '1px solid var(--border)', background: 'rgba(255,255,255,.01)' }}>
+        <div style={{
+          display: 'flex', gap: 8, flexWrap: 'wrap', padding: '14px 24px',
+          borderBottom: '1px solid var(--border)', background: 'var(--surface2)',
+        }}>
           <div style={{ position: 'relative', flex: 1, minWidth: 120 }}>
             <Search size={13} style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--tm)', pointerEvents: 'none' }} />
             <input type="search" placeholder="Search…" value={search} onChange={e => setSearch(e.target.value)}
@@ -116,26 +126,37 @@ export function ExpenseList({ expenses, onDelete, onEdit, limit }) {
             const isEdit = editId === exp.id;
             const color  = CATEGORY_COLORS[exp.category] ?? '#94a3b8';
             return (
-              <div key={exp.id} style={{
-                display: 'flex', alignItems: 'center', gap: 14, padding: '14px 24px',
-                borderBottom: i < filtered.length - 1 ? '1px solid var(--border)' : 'none',
-                transition: 'background .15s',
-              }}
-                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,.02)'; }}
+              <div key={exp.id}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 14, padding: '14px 24px',
+                  borderBottom: i < filtered.length - 1 ? '1px solid var(--border)' : 'none',
+                  transition: 'background .15s',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface2)'; }}
                 onMouseLeave={e => { e.currentTarget.style.background = ''; }}
               >
+                {/* Icon */}
                 <div style={{ width: 40, height: 40, borderRadius: 12, background: color + '22', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>
                   {CATEGORY_ICONS[exp.category] ?? '📦'}
                 </div>
+
+                {/* Info */}
                 <div style={{ flex: 1, minWidth: 0 }}>
                   {isEdit ? (
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                      <input type="number" value={editForm.amount} min="0.01" step="0.01" style={{ ...editInput, width: 80 }} onChange={e => setEditForm(f => ({ ...f, amount: e.target.value }))} />
-                      <select value={editForm.category} style={{ ...editInput, width: 120 }} onChange={e => setEditForm(f => ({ ...f, category: e.target.value }))}>
+                      <input type="number" value={editForm.amount} min="0.01" step="0.01"
+                        style={{ ...editInput, width: 80 }}
+                        onChange={e => setEditForm(f => ({ ...f, amount: e.target.value }))} />
+                      <select value={editForm.category} style={{ ...editInput, width: 120 }}
+                        onChange={e => setEditForm(f => ({ ...f, category: e.target.value }))}>
                         {CATEGORIES.map(c => <option key={c}>{c}</option>)}
                       </select>
-                      <input type="date" value={editForm.date} style={{ ...editInput, width: 135, colorScheme: 'dark' }} onChange={e => setEditForm(f => ({ ...f, date: e.target.value }))} />
-                      <input type="text" value={editForm.note} placeholder="Note…" style={{ ...editInput, width: 150 }} onChange={e => setEditForm(f => ({ ...f, note: e.target.value }))} />
+                      <input type="date" value={editForm.date}
+                        style={{ ...editInput, width: 135 }}
+                        onChange={e => setEditForm(f => ({ ...f, date: e.target.value }))} />
+                      <input type="text" value={editForm.note} placeholder="Note…"
+                        style={{ ...editInput, width: 150 }}
+                        onChange={e => setEditForm(f => ({ ...f, note: e.target.value }))} />
                     </div>
                   ) : (
                     <>
@@ -151,23 +172,35 @@ export function ExpenseList({ expenses, onDelete, onEdit, limit }) {
                     </>
                   )}
                 </div>
+
+                {/* Amount */}
                 <div style={{ fontWeight: 700, fontSize: '.875rem', color: 'var(--red)', flexShrink: 0 }}>
                   -{formatCurrency(exp.amount)}
                 </div>
+
+                {/* Actions */}
                 <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>
                   {isEdit ? (
                     <>
-                      <button onClick={saveEdit} style={{ width: 28, height: 28, borderRadius: 8, border: 'none', background: 'transparent', color: 'var(--green)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Check size={14} /></button>
-                      <button onClick={() => setEditId(null)} style={{ width: 28, height: 28, borderRadius: 8, border: 'none', background: 'transparent', color: 'var(--tm)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><X size={14} /></button>
+                      <button onClick={saveEdit} style={{ width: 28, height: 28, borderRadius: 8, border: 'none', background: 'transparent', color: 'var(--green)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <Check size={14} />
+                      </button>
+                      <button onClick={() => setEditId(null)} style={{ width: 28, height: 28, borderRadius: 8, border: 'none', background: 'transparent', color: 'var(--tm)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <X size={14} />
+                      </button>
                     </>
                   ) : (
                     <>
-                      <button onClick={() => startEdit(exp)} style={{ width: 28, height: 28, borderRadius: 8, border: 'none', background: 'transparent', color: 'var(--tm)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color .15s' }}
-                        onMouseEnter={e => { e.currentTarget.style.color = 'var(--t2)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--tm)'; }}>
+                      <button onClick={() => startEdit(exp)}
+                        style={{ width: 28, height: 28, borderRadius: 8, border: 'none', background: 'transparent', color: 'var(--tm)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color .15s' }}
+                        onMouseEnter={e => { e.currentTarget.style.color = 'var(--t1)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.color = 'var(--tm)'; }}>
                         <Pencil size={13} />
                       </button>
-                      <button onClick={() => setDeleteId(exp.id)} style={{ width: 28, height: 28, borderRadius: 8, border: 'none', background: 'transparent', color: 'var(--tm)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color .15s' }}
-                        onMouseEnter={e => { e.currentTarget.style.color = 'var(--red)'; }} onMouseLeave={e => { e.currentTarget.style.color = 'var(--tm)'; }}>
+                      <button onClick={() => setDeleteId(exp.id)}
+                        style={{ width: 28, height: 28, borderRadius: 8, border: 'none', background: 'transparent', color: 'var(--tm)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color .15s' }}
+                        onMouseEnter={e => { e.currentTarget.style.color = 'var(--red)'; }}
+                        onMouseLeave={e => { e.currentTarget.style.color = 'var(--tm)'; }}>
                         <Trash2 size={13} />
                       </button>
                     </>

@@ -14,15 +14,16 @@ export function Navbar({ darkMode, setDarkMode, onMenuToggle }) {
   return (
     <header style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: '16px 24px', borderBottom: '1px solid var(--border)', flexShrink: 0,
+      padding: '16px 24px', borderBottom: '1px solid var(--border)',
+      flexShrink: 0, background: 'var(--surface)',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-        <button onClick={onMenuToggle} style={{ ...iconBtn, display: 'flex' }}
-          className="mobile-menu-btn">
+        {/* NOTE: no display style here — the CSS media query controls visibility */}
+        <button onClick={onMenuToggle} className="mobile-menu-btn" style={{ ...iconBtn }}>
           <Menu size={20} />
         </button>
         <div>
-          <div style={{ fontWeight: 700, fontSize: '1.05rem', color: '#fff', lineHeight: 1.2 }}>
+          <div style={{ fontWeight: 700, fontSize: '1.05rem', color: 'var(--t1)', lineHeight: 1.2 }}>
             {greeting}, Aditya 👋
           </div>
           <div style={{ fontSize: '.75rem', color: 'var(--tm)', marginTop: 2 }}>
@@ -40,14 +41,14 @@ export function Navbar({ darkMode, setDarkMode, onMenuToggle }) {
             width: 6, height: 6, borderRadius: '50%', background: 'var(--green)',
           }} />
         </button>
-        <button style={iconBtn} onClick={() => setDarkMode(d => !d)}>
+        <button style={iconBtn} onClick={() => setDarkMode(d => !d)} title="Toggle theme">
           {darkMode ? <Moon size={17} /> : <Sun size={17} />}
         </button>
         <div style={{
           width: 32, height: 32, borderRadius: '50%', marginLeft: 4,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontWeight: 700, fontSize: '.8rem', flexShrink: 0,
-          background: 'linear-gradient(135deg,#3b82f6,#8b5cf6)',
+          background: 'linear-gradient(135deg,#3b82f6,#8b5cf6)', color: '#fff',
         }}>A</div>
       </div>
     </header>

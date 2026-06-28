@@ -29,10 +29,15 @@ const card = {
   background: 'var(--surface)', border: '1px solid var(--border)',
   borderRadius: 20, boxShadow: 'var(--shadow-md)', overflow: 'hidden',
 };
-const cardHead = {
-  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-  padding: '20px 24px', borderBottom: '1px solid var(--border)',
-};
+
+function Empty({ label }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '48px 24px', gap: 8 }}>
+      <span style={{ fontSize: '2rem' }}>📊</span>
+      <p style={{ fontSize: '.8rem', color: 'var(--tm)' }}>{label}</p>
+    </div>
+  );
+}
 
 export function Charts({ catTotals }) {
   const data = Object.entries(catTotals)
@@ -40,17 +45,15 @@ export function Charts({ catTotals }) {
     .map(([name, value]) => ({ name, value }))
     .sort((a, b) => b.value - a.value);
 
-  const Empty = ({ label }) => (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '48px 24px', gap: 8 }}>
-      <span style={{ fontSize: '2rem' }}>📊</span>
-      <p style={{ fontSize: '.8rem', color: 'var(--tm)' }}>{label}</p>
-    </div>
-  );
-
   const tag = (color, bg) => ({
     fontSize: '.72rem', fontWeight: 700, padding: '3px 10px',
     borderRadius: 99, background: bg, color,
   });
+
+  const cardHead = {
+    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+    padding: '20px 24px', borderBottom: '1px solid var(--border)',
+  };
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="charts-grid">
@@ -88,10 +91,18 @@ export function Charts({ catTotals }) {
           <div style={{ padding: '16px 24px' }}>
             <ResponsiveContainer width="100%" height={260}>
               <BarChart data={data} margin={{ top: 4, right: 8, left: 4, bottom: 4 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.04)" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 10, fill: 'var(--tm)', fontFamily: 'Inter' }} axisLine={false} tickLine={false} />
-                <YAxis tickFormatter={v => `₹${v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v}`} tick={{ fontSize: 10, fill: 'var(--tm)', fontFamily: 'Inter' }} axisLine={false} tickLine={false} width={48} />
-                <Tooltip content={<BarTip />} cursor={{ fill: 'rgba(255,255,255,.03)' }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+                <XAxis
+                  dataKey="name"
+                  tick={{ fontSize: 10, fill: 'var(--tm)', fontFamily: 'Inter' }}
+                  axisLine={false} tickLine={false}
+                />
+                <YAxis
+                  tickFormatter={v => `₹${v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v}`}
+                  tick={{ fontSize: 10, fill: 'var(--tm)', fontFamily: 'Inter' }}
+                  axisLine={false} tickLine={false} width={48}
+                />
+                <Tooltip content={<BarTip />} cursor={{ fill: 'var(--border)' }} />
                 <Bar dataKey="value" radius={[6, 6, 0, 0]} animationBegin={0} animationDuration={800}>
                   {data.map(e => <Cell key={e.name} fill={CATEGORY_COLORS[e.name] ?? '#94A3B8'} />)}
                 </Bar>

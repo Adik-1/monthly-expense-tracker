@@ -11,8 +11,14 @@ function StatCard({ label, value, meta, Icon, iconBg, valueColor, trend, trendUp
         boxShadow: 'var(--shadow-md)', cursor: 'default',
         transition: 'transform .2s, box-shadow .2s',
       }}
-      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08)'; }}
-      onMouseLeave={e => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = 'var(--shadow-md)'; }}
+      onMouseEnter={e => {
+        e.currentTarget.style.transform = 'translateY(-3px)';
+        e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
+      }}
+      onMouseLeave={e => {
+        e.currentTarget.style.transform = '';
+        e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+      }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span style={{ fontSize: '.68rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '.08em', color: 'var(--tm)' }}>
@@ -46,15 +52,16 @@ function StatCard({ label, value, meta, Icon, iconBg, valueColor, trend, trendUp
 export function DashboardCards({ stats, expenses }) {
   const tmCount = expenses.filter(e => e.date?.startsWith(new Date().toISOString().slice(0, 7))).length;
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }}
-      className="cards-grid">
-      <StatCard label="Total Spent"      value={formatCurrency(stats.total)}     meta={`${stats.count} transactions`} Icon={Wallet}       iconBg="rgba(59,130,246,.15)"  valueColor="#3b82f6" trend="+2.4%" trendUp={true} />
-      <StatCard label="This Month"       value={formatCurrency(stats.thisMonth)} meta={`${tmCount} expenses`}         Icon={TrendingUp}   iconBg="rgba(34,197,94,.12)"   valueColor="#22c55e" trend="+12%"  trendUp={true} />
-      <StatCard label="Largest Expense"  value={formatCurrency(stats.largest)}   meta="Single transaction"            Icon={TrendingDown} iconBg="rgba(239,68,68,.12)"   valueColor="#ef4444" trend="-5%"   trendUp={false} />
-      <StatCard label="Top Category"
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 16 }} className="cards-grid">
+      <StatCard label="Total Spent"     value={formatCurrency(stats.total)}     meta={`${stats.count} transactions`} Icon={Wallet}       iconBg="rgba(59,130,246,.15)"  valueColor="#3b82f6" trend="+2.4%" trendUp={true} />
+      <StatCard label="This Month"      value={formatCurrency(stats.thisMonth)} meta={`${tmCount} expenses`}         Icon={TrendingUp}   iconBg="rgba(34,197,94,.12)"   valueColor="#22c55e" trend="+12%"  trendUp={true} />
+      <StatCard label="Largest Expense" value={formatCurrency(stats.largest)}   meta="Single transaction"            Icon={TrendingDown} iconBg="rgba(239,68,68,.12)"   valueColor="#ef4444" trend="-5%"   trendUp={false} />
+      <StatCard
+        label="Top Category"
         value={stats.topCategory === '—' ? '—' : `${CATEGORY_ICONS[stats.topCategory] ?? ''} ${stats.topCategory}`}
         meta={stats.topCategory !== '—' ? 'Most frequent' : 'No data yet'}
-        Icon={PiggyBank} iconBg="rgba(168,85,247,.12)" valueColor="#a855f7" />
+        Icon={PiggyBank} iconBg="rgba(168,85,247,.12)" valueColor="#a855f7"
+      />
     </div>
   );
 }

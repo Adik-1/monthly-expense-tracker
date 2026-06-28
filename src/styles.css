@@ -2,6 +2,7 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── DARK THEME (default) ────────────────────────────────────────────────── */
 :root {
   --bg: #0b0f1a;
   --surface: #111827;
@@ -18,13 +19,39 @@
   --purple: #a855f7;
   --t1: #f1f5f9;
   --t2: #94a3b8;
-  --tm: #475569;
+  --tm: #64748b;
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
   --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
   --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
   --sidebar-w: 260px;
+  color-scheme: dark;
 }
 
+/* ── LIGHT THEME ─────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg: #f0f4f8;
+  --surface: #ffffff;
+  --surface2: #f8fafc;
+  --border: rgba(0,0,0,0.08);
+  --border-h: rgba(0,0,0,0.14);
+  --green: #16a34a;
+  --green-dim: rgba(22,163,74,0.1);
+  --green-glow: rgba(22,163,74,0.2);
+  --red: #dc2626;
+  --red-dim: rgba(220,38,38,0.1);
+  --blue: #2563eb;
+  --amber: #d97706;
+  --purple: #7c3aed;
+  --t1: #0f172a;
+  --t2: #475569;
+  --tm: #94a3b8;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.15);
+  color-scheme: light;
+}
+
+/* ── Base ────────────────────────────────────────────────────────────────── */
 html, body, #root {
   height: 100%;
   font-family: 'Inter', sans-serif;
@@ -33,12 +60,28 @@ html, body, #root {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-thumb { background: var(--border-h); border-radius: 99px; }
 ::-webkit-scrollbar-track { background: transparent; }
 
+/* ── Form elements ───────────────────────────────────────────────────────── */
 button { font-family: inherit; cursor: pointer; }
 input, select, textarea { font-family: inherit; }
 input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
-input[type="date"] { color-scheme: dark; }
+input[type="date"] { color-scheme: inherit; }
 select option { background: var(--surface2); color: var(--t1); }
+
+/* ── Sidebar: light mode overrides ──────────────────────────────────────── */
+[data-theme="light"] aside {
+  background: linear-gradient(180deg, #f8fafc 0%, #f0f4f8 100%) !important;
+  border-right-color: var(--border) !important;
+}
+
+/* ── Sidebar background token ────────────────────────────────────────────── */
+:root {
+  --sidebar-bg: #0f1623;
+}
+[data-theme="light"] {
+  --sidebar-bg: #f8fafc;
+}

@@ -7,13 +7,13 @@ export function ConfirmDeleteModal({ onConfirm, onCancel }) {
       style={{
         position: 'fixed', inset: 0, zIndex: 50,
         display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16,
-        background: 'rgba(0,0,0,.7)', backdropFilter: 'blur(8px)',
+        background: 'rgba(0,0,0,.6)', backdropFilter: 'blur(8px)',
       }}
     >
       <div
         onClick={e => e.stopPropagation()}
         style={{
-          background: 'var(--surface2)', border: '1px solid var(--border)',
+          background: 'var(--surface)', border: '1px solid var(--border)',
           borderRadius: 20, padding: 28, maxWidth: 380, width: '100%',
           display: 'flex', flexDirection: 'column', alignItems: 'center',
           gap: 16, textAlign: 'center', boxShadow: 'var(--shadow-lg)',
@@ -28,16 +28,20 @@ export function ConfirmDeleteModal({ onConfirm, onCancel }) {
         </div>
         <div style={{ display: 'flex', gap: 12, width: '100%' }}>
           <button onClick={onCancel} style={{
-            flex: 1, padding: '10px 0', borderRadius: 12, border: 'none',
-            background: 'rgba(255,255,255,.06)', color: 'var(--t2)',
+            flex: 1, padding: '10px 0', borderRadius: 12, border: '1px solid var(--border)',
+            background: 'var(--surface2)', color: 'var(--t2)',
             fontWeight: 600, fontSize: '.85rem', cursor: 'pointer',
-          }}>Cancel</button>
+          }}>
+            Cancel
+          </button>
           <button onClick={onConfirm} style={{
             flex: 1, padding: '10px 0', borderRadius: 12, border: 'none',
             background: 'var(--red)', color: '#fff',
             fontWeight: 700, fontSize: '.85rem', cursor: 'pointer',
             boxShadow: '0 4px 14px rgba(239,68,68,.35)',
-          }}>Delete</button>
+          }}>
+            Delete
+          </button>
         </div>
       </div>
     </div>
